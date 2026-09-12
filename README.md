@@ -24,8 +24,7 @@ A heavy-water moderated bundle model with concentric rings containing 1, 6, 12, 
 ### 4. PWR pin-cell eigenvalue calculation
 `04_pwr_pin_eigenvalue/pwr_pin.py`
 
-A complete learning example that adds criticality settings and a simple fuel-cell flux tally to the basic pin model. It demonstrates source definition, eigenvalue simulation, XML export, OpenMC execution, and StatePoint post-processing for `k-effective`.
-
+A learning example that extends the basic PWR pin-cell model with criticality settings, a neutron source, a cell-based flux tally, OpenMC execution, and StatePoint post-processing to obtain k-effective.
 ## Software
 
 - Python 3
