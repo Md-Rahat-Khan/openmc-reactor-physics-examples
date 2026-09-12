@@ -1,54 +1,49 @@
-# OpenMC Geometry Modeling Examples
+# OpenMC Reactor Physics Examples
 
-This repository contains a small set of OpenMC examples that document my practical exposure to Monte Carlo reactor physics and nuclear-fuel geometry modeling.
+This repository documents hands-on practice with the OpenMC Monte Carlo particle transport code and Python-based nuclear reactor geometry modeling.
+
+The examples progress from simple fuel-pin geometry to a criticality calculation.
 
 ## Projects
 
 ### 1. Basic cylindrical fuel pin
 `01_basic_pin/basic_pin.py`
 
-A simple PWR-style pin-cell model using:
-- 4.25% enriched UO2 fuel
-- Zircaloy cladding
-- Light-water moderator
-- Cylindrical fuel and cladding surfaces
-- Reflective square boundary
-- `openmc.model.pin()` for pin construction
+A PWR-style reflected pin-cell geometry using 4.25% enriched UO2 fuel, Zircaloy cladding, and light-water moderator.
 
 ### 2. Hexagonal fuel pin
 `02_hexagonal_pin/hexagonal_pin.py`
 
-A variation of the pin model using a reflective hexagonal prism boundary. This example demonstrates how the same pin concept can be placed inside a different lattice cell shape.
+A pin-cell variation using a reflective hexagonal prism boundary.
 
 ### 3. CANDU-style 37-element fuel bundle
 `03_candu_bundle/candu_bundle.py`
 
-A more advanced geometry-building example based on concentric fuel-pin rings. It demonstrates:
-- UO2 fuel and Zircaloy cladding
-- Heavy-water moderator
-- Concentric moderator regions
-- Explicit fuel-pin placement using polar coordinates
-- Ring populations of 1, 6, 12, and 18 pins
-- Pin translations in the OpenMC universe
-- Explicit cell IDs for later identification in tallies
-- Geometry plotting for inspection
+A heavy-water moderated bundle model with concentric rings containing 1, 6, 12, and 18 fuel pins. The example demonstrates explicit polar-coordinate placement, cell translation, Boolean regions, and cell IDs.
 
-The bundle geometry uses representative pressure-tube and calandria dimensions as parameters in the script.
+### 4. PWR pin-cell eigenvalue calculation
+`04_pwr_pin_eigenvalue/pwr_pin.py`
+
+A complete learning example that adds criticality settings and a simple fuel-cell flux tally to the basic pin model. It demonstrates source definition, eigenvalue simulation, XML export, OpenMC execution, and StatePoint post-processing for `k-effective`.
 
 ## Software
 
 - Python 3
-- OpenMC
+- OpenMC 0.15.3 or compatible newer development version
 - NumPy
 - Matplotlib
 
+OpenMC 0.15.3 is the latest numbered release listed by the official OpenMC project at the time this repository was prepared. citeturn623376search0
+
 ## Installation
 
-Install OpenMC according to the official documentation and install the Python dependencies with:
+Install OpenMC and its nuclear-data library following the official documentation, then install the Python packages:
 
 ```bash
 pip install -r requirements.txt
 ```
+
+OpenMC criticality simulations require a neutron cross-section data library configured on your system. The OpenMC documentation specifies that an eigenvalue problem uses a starting source and particle count in `Settings`. citeturn678841search6
 
 ## Running the examples
 
@@ -58,41 +53,34 @@ From the repository root:
 python 01_basic_pin/basic_pin.py
 python 02_hexagonal_pin/hexagonal_pin.py
 python 03_candu_bundle/candu_bundle.py
+python 04_pwr_pin_eigenvalue/pwr_pin.py
 ```
 
-The scripts create geometry objects and use OpenMC plotting to visualize the models. They are geometry-learning examples and do not by themselves perform a complete criticality calculation.
+The first three scripts focus on geometry construction and plotting. The fourth performs an eigenvalue calculation and reads the resulting StatePoint file.
 
-## What I practiced
-
-These examples helped me practice the following OpenMC concepts:
+## OpenMC concepts practiced
 
 - `Material`
-- elemental and isotopic composition
-- density assignment
-- S(alpha,beta) thermal scattering data
+- Elemental composition and enrichment
+- Material density
+- Thermal scattering data
 - `ZCylinder`
-- reflective boundaries
-- `Cell`
-- `Universe`
-- `Geometry`
+- Reflective boundaries
+- `Cell`, `Universe`, and `Geometry`
 - `openmc.model.pin()`
 - `openmc.model.hexagonal_prism()`
-- cell regions and Boolean geometry operations
-- cell translation
-- explicit cell IDs
-- geometry plotting
+- Boolean region operations
+- Cell translation
+- Explicit cell IDs
+- Geometry plotting
+- `Settings`
+- `IndependentSource`
+- Fissionable source constraints
+- `Tally` and `CellFilter`
+- Eigenvalue calculations
+- StatePoint post-processing
+- `k-effective` extraction
 
-## Suggested next steps
+## Portfolio note
 
-A natural extension of this repository is to add a complete eigenvalue calculation with:
-
-1. a `settings.xml` definition,
-2. source distribution,
-3. materials and geometry XML export,
-4. `openmc.run()`,
-5. statepoint analysis, and
-6. `k-effective` and neutron-flux tallies.
-
-## Note
-
-The repository is intended to demonstrate OpenMC learning and geometry-modeling practice. Parameter values should be checked against the specific reactor design and reference used for any research calculation.
+These examples demonstrate practical learning in Monte Carlo reactor physics and OpenMC modeling. Parameters should be verified against validated benchmark data before being used for research conclusions or reactor-design work.
